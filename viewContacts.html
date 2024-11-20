@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Existing Contacts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .contacts-list {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+        .contact-item {
+            border-bottom: 1px solid #ddd;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="contacts-list">
+        <h2>Existing Contacts</h2>
+        <div id="contactItems">
+            <!-- Contacts will be displayed here dynamically -->
+        </div>
+        <a href="index.html"><button>Return to Main Page</button></a>
+    </div>
+
+    <div id="errorMessages" class="error-message"></div>
+
+    <script>
+        // Function to display saved contacts from localStorage
+        function displayContacts() {
+            const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+            const contactItemsContainer = document.getElementById('contactItems');
+            contactItemsContainer.innerHTML = '';
+
+            // Check if there are no contacts
+            if (contacts.length === 0) {
+                contactItemsContainer.innerHTML = '<p>No contacts saved yet!</p>';
+            } else {
+                // Loop through each contact and display it
+                contacts.forEach((contact, index) => {
+                    const contactDiv = document.createElement('div');
+                    contactDiv.classList.add('contact-item');
+                    contactDiv.innerHTML = `
+                        <p><strong>${contact.firstName} ${contact.lastName}</strong></p>
+                        <p>Address: ${contact.address}, ${contact.state} ${contact.zip}</p>
+                        <p>Email: ${contact.email} | Phone: ${contact.phone}</p>
+                    `;
+                    contactItemsContainer.appendChild(contactDiv);
+                });
+            }
+        }
+
+        // Call displayContacts function when the page loads
+        window.onload = displayContacts;
+    </script>
+</body>
+</html>

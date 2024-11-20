@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .thank-you {
+            border: 1px solid #ccc;
+            padding: 20px;
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+        }
+        .thank-you h2 {
+            margin-top: 0;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #007BFF;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="thank-you">
+        <h2>Thanks for Registration!</h2>
+        <p>Your information is:</p>
+        <p id="userInfo">
+            <!-- Dynamic content will be inserted here -->
+        </p>
+        <a href="index.html">Return to the main page</a>
+    </div>
+    <script>
+        // Retrieve the last saved contact from localStorage
+        const contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+        if (contacts.length > 0) {
+            const lastContact = contacts[contacts.length - 1];
+            document.getElementById('userInfo').innerHTML = `
+                <strong>First Name:</strong> ${lastContact.firstName}<br>
+                <strong>Last Name:</strong> ${lastContact.lastName}<br>
+                <strong>Address:</strong> ${lastContact.address}<br>
+                <strong>State:</strong> ${lastContact.state}<br>
+                <strong>Zip:</strong> ${lastContact.zip}<br>
+                <strong>Telephone:</strong> ${lastContact.phone}<br>
+                <strong>Email:</strong> ${lastContact.email}
+            `;
+        } else {
+            document.getElementById('userInfo').innerText = "No contact information found.";
+        }
+    </script>
+</body>
+</html>

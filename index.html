@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        input, select {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error-message {
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Contact Form</h1>
+    <form id="contactForm">
+        <!-- First Name Input -->
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName" required><br>
+
+        <!-- Last Name Input -->
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName" required><br>
+
+        <!-- Address Input -->
+        <label for="address">Address:</label>
+        <input type="text" id="address" name="address" required><br>
+
+        <!-- State Input (User types in their state) -->
+        <label for="state">State:</label>
+        <input type="text" id="state" name="state" required><br>
+
+        <!-- Zip Code Input -->
+        <label for="zip">Zip Code:</label>
+        <input type="text" id="zip" name="zip" required><br>
+
+        <!-- Phone Input -->
+        <label for="phone">Phone:</label>
+        <input type="text" id="phone" name="phone" required><br>
+
+        <!-- Email Input -->
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br>
+
+        <!-- Buttons to Save or Reset -->
+        <button type="button" onclick="saveToDatabase()">Save to Database</button>
+        <button type="button" onclick="saveToFile()">Save to File</button>
+        <button type="reset">Reset</button>
+
+        <!-- Link to view saved contacts -->
+        <a href="viewContacts.html"><button type="button">View Contacts in File</button></a>
+        <!-- Placeholder button for "View Contacts in Database" -->
+        <button type="button" onclick="viewContactsInDatabase()">View Contacts in Database</button>
+    </form>
+
+    <!-- Error message section -->
+    <div id="errorMessages" class="error-message"></div>
+
+    <script>
+        // Function to save contact information to 'localStorage' (acting as a file)
+        function saveToFile() {
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const address = document.getElementById('address').value;
+            const state = document.getElementById('state').value;
+            const zip = document.getElementById('zip').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const errorMessages = document.getElementById('errorMessages');
+            errorMessages.innerHTML = ''; // Clear any previous error messages
+
+            // Validation: Ensure all fields are filled
+            if (!firstName || !lastName || !address || !state || !zip || !phone || !email) {
+                errorMessages.innerHTML = 'All fields must be filled!';
+                return;
+            }
+
+            // Validate Zip Code (must be exactly 5 digits)
+            if (!/^\d{5}$/.test(zip)) {
+                errorMessages.innerHTML = 'Invalid zip code!';
+                return;
+            }
+
+            // Validate Phone Number (must be exactly 10 digits)
+            if (!/^\d{10}$/.test(phone)) {
+                errorMessages.innerHTML = 'Invalid phone number!';
+                return;
+            }
+
+            // Validate Email (simple regex check)
+            if (!/^\S+@\S+\.\S+$/.test(email)) {
+                errorMessages.innerHTML = 'Invalid email address!';
+                return;
+            }
+
+            // Create contact object
+            const contact = {
+                firstName, lastName, address, state, zip, phone, email
+            };
+
+            // Retrieve existing contacts from local storage (or initialize an empty array)
+            let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+
+            // Add the new contact to the contacts array
+            contacts.push(contact);
+
+            // Save updated contacts back to local storage
+            localStorage.setItem('contacts', JSON.stringify(contacts));
+
+            // Display success message
+            alert('Contact saved!');
+
+            // Redirect to the thank you page
+            window.location.href = 'thankyou.html';
+        }
+
+        // Placeholder for Save to Database (non-functional)
+        function saveToDatabase() {
+            alert('Save to database is not functional.');
+        }
+
+        // Placeholder for "View Contacts in Database" Button (non-functional)
+        function viewContactsInDatabase() {
+            alert('View contacts in database is not functional.');
+        }
+    </script>
+</body>
+</html>
